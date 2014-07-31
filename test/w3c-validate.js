@@ -1,5 +1,6 @@
 var should  = require('chai').should();
 var factory = require('../lib/w3c-validate');
+var _ = require('underscore');
 
 describe('validator factory', function () {
   it('should have a factory method createValidator()', function () {
@@ -27,7 +28,11 @@ describe('validator factory', function () {
           '<body>World</body>' +
           '</html>';
 
-        w3c.validate(html, done);
+        w3c.validate(html, function(err, data) {
+          should.not.exist(err);
+          should.not.exist(data);
+          done();
+        });
       });
 
       it('page should have a validation error', function(done){
@@ -38,9 +43,14 @@ describe('validator factory', function () {
           '<body>World</body>' +
           '</html>';
 
-        w3c.validate(html, function (err) {
-          should.exist(err);
-          err.should.be.instanceOf(Error);
+        w3c.validate(html, function (err, data) {
+          should.not.exist(err);
+          should.exist(data);
+          data.should.be.a('array');
+          _.each(data, function(validationError) {
+            validationError.error.should.be.a('string');
+            validationError.context.should.be.a('string');
+          });
           done();
         });
       });
