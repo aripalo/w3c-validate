@@ -19,12 +19,13 @@ npm install w3c-validate
 ```js
 var w3c = require('w3c-validate').createValidator();
 
-w3c.validate('<html> ... </html>', function (err) {
-  if (err) {
-    console.error(err); // error includes [{message, context}] to help understand validation errors
-  } else {
-    console.log('Valid! Hurray!');
-  }
+w3c.validate('<html> ... </html>', function (err, data) {
+  if (err) return err;
+
+  console.log(data);
+  // if has validation errors => [{message, context}]
+  // if no validation errors (the html is valid) => null
+
 });
 ```
 
