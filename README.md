@@ -29,6 +29,7 @@ w3c.validate('<html> ... </html>', function (err, data) {
 });
 ```
 
+
 ## Example async testing with Mocha
 
 ```js
@@ -76,6 +77,16 @@ var w3c = require('w3c-validate').createValidator([
   'Attribute xmlns:fb not allowed here.'
 ]);
 ```
+
+### Using with private validator instance
+
+To validate html against [private instance of W3C markup validator](http://validator.w3.org/docs/install.html) you must specify the URL of your validator in `opts`-object, e.g:
+
+```js
+var w3c = require('w3c-validate').createValidator([], { url:'http://localhost:8090/w3c-validator/check' });
+```
+
+
 
 # Running Tests
 To run the test suite first invoke the following command within the repo, installing the development dependencies:
