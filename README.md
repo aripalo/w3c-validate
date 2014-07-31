@@ -54,7 +54,13 @@ describe('html validation', function(){
       .expect(200)
       .end(function(err, res){
         if (err) return done(err);
-        w3c.validate(res.text, done);
+        w3c.validate(res.text, function(err, data) {
+          if(err) return done(err);
+          if(!data){
+            return done();
+          }
+          return done(new Error(data));
+        });
       });
   })
 })
